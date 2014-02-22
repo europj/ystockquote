@@ -63,6 +63,39 @@ class YStockQuoteTestCase(TestWithScenarios):
         self.assertGreater(float(prices[end_date]['Volume']), 0.0)
         self.assertGreater(float(prices[end_date]['Adj Close']), 0.0)
 
+    def test_get_all_alignment(self):
+        """ Compare bulk 'all_info' values to individual values.
+        Currently broken due to misalignment from invalid CSV in
+        fields: f6, k3, and maybe j2, a5, b6.
+        """
+        symbol = 'GOOG'
+        all_info = ystockquote.get_all(symbol)
+        self.assertIsInstance(all_info, dict)
+        self.assertEquals(
+            all_info['previous_close'],
+            ystockquote.get_previous_close(symbol))
+        self.assertEquals(
+            all_info['volume'],
+            ystockquote.get_volume(symbol))
+        self.assertEquals(
+            all_info['bid_realtime'],
+            ystockquote.get_bid_realtime(symbol))
+        self.assertEquals(
+            all_info['ask_realtime'],
+            ystockquote.get_ask_realtime(symbol))
+        self.assertEquals(
+            all_info['last_trade_price'],
+            ystockquote.get_last_trade_price(symbol))
+        self.assertEquals(
+            all_info['today_open'],
+            ystockquote.get_today_open(symbol))
+        self.assertEquals(
+            all_info['todays_high'],
+            ystockquote.get_todays_high(symbol))
+        self.assertEquals(
+            all_info['last_trade_date'],
+            ystockquote.get_last_trade_date(symbol))
+
 
 if __name__ == '__main__':
     unittest.main()
