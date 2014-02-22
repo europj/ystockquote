@@ -33,7 +33,7 @@ def _request(symbol, stat):
     return content
 
 
-def get_all(symbol):
+def get_all_old_and_broken(symbol):
     """
     Get all available quote data for the given ticker symbol.
 
@@ -127,6 +127,121 @@ def get_all(symbol):
         price_eps_estimate_next_year=values[79],
         short_ratio=values[80],
     )
+
+
+def get_all(symbol):
+    """
+    Get all available quote data for the given ticker symbol.
+    Copied from: @rarmknecht fork
+
+    Returns a dictionary.
+    """
+    ids = \
+        'ydb2r1b3qpoc1d1' \
+        'cd2c6t1k2p2c8m5gm7' \
+        'hm8k1m3lm4l1t8w1g1' \
+        'w4g3p1mg5m2kjj1j5' \
+        'j3k4j6nk5n4ws1xv' \
+        't7a2t6i5l2el3e7v1e8' \
+        'v7e9s6b4j4p5p6rr2r5' \
+        'r6r7s7g4g6'
+    values = _request(symbol, ids).split(',')
+    return dict(
+        dividend_yield=values[0],  # y
+        dividend_per_share=values[1],  # d
+        ask_realtime=values[2],  # b2
+        dividend_pay_date=values[3],  # r1
+        bid_realtime=values[4],  # b3
+        ex_dividend_date=values[5],  # q
+        previous_close=values[6],  # p
+        today_open=values[7],  # o
+        change=values[8],  # c1
+        last_trade_date=values[9],  # d1
+
+        change_percent_change=values[10],  # c
+        trade_date=values[11],  # d2
+        change_realtime=values[12],  # c6
+        last_trade_time=values[13],  # t1
+        change_percent_realtime=values[14],  # k2
+        change_percent=values[15],  # p2
+        after_hours_change_realtime=values[16],  # c8
+        change_200_sma=values[17],  # m5
+        todays_low=values[18],  # g
+        change_50_sma=values[19],  # m7
+
+        todays_high=values[20],  # h
+        percent_change_50_sma=values[21],  # m8
+        last_trade_realtime_time=values[22],  # k1
+        fifty_sma=values[23],  # m3
+        last_trade_time_plus=values[24],  # l - el
+        twohundred_sma=values[25],  # m4
+        last_trade_price=values[26],  # l1 - el one
+        one_year_target=values[27],  # t8
+        todays_value_change=values[28],  # w1
+        holdings_gain_percent=values[29],  # g1
+
+        todays_value_change_realtime=values[30],  # w4
+        annualized_gain=values[31],  # g3
+        price_paid=values[32],  # p1
+        todays_range=values[33],  # m
+        holdings_gain_percent_realtime=values[34],  # g5
+        todays_range_realtime=values[35],  # m2
+        fiftytwo_week_high=values[36],  # k
+        fiftytwo_week_low=values[37],  # j
+        market_cap=values[38],  # j1
+        change_from_52_week_low=values[39],  # j5
+
+        market_cap_realtime=values[40],  # j3
+        change_from_52_week_high=values[41],  # k4
+        percent_change_from_52_week_low=values[42],  # j6
+        company_name=values[43],  # n
+        percent_change_from_52_week_high=values[44],  # k5
+        notes=values[45],  # n4
+        fiftytwo_week_range=values[46],  # w
+        shares_owned=values[47],  # s1
+        stock_exchange=values[48],  # x
+        volume=values[49],  # v
+
+        ticker_trend=values[50],  # t7
+        average_daily_volume=values[51],  # a2
+        trade_links=values[52],  # t6
+        order_book_realtime=values[53],  # i5
+        high_limit=values[54],  # l2
+        eps=values[55],  # e
+        low_limit=values[56],  # l3
+        eps_estimate_current_year=values[57],  # e7
+        holdings_value=values[58],  # v1
+        eps_estimate_next_year=values[59],  # e8
+
+        holdings_value_realtime=values[60],  # v7
+        eps_estimate_next_quarter=values[61],  # e9
+        revenue=values[62],  # s6
+        book_value=values[63],  # b4
+        ebitda=values[64],  # j4
+        price_sales=values[65],  # p5
+        price_book=values[66],  # p6
+        pe=values[67],  # r
+        pe_realtime=values[68],  # r2
+        peg=values[69],  # r5
+
+        price_eps_estimate_current_year=values[70],  # r6
+        price_eps_estimate_next_year=values[71],  # r7
+        short_ratio=values[72],  # s7
+        holdings_gain=values[73],  # g4
+        holdings_gain_realtime=values[74],  # g6
+    )
+
+        # Don't do separate queries; just don't get these for now.
+        #
+        # Seperate Queries - results may contain commas
+        #float_shares=''.join(_request(symbol, 'f6').split(',')),  # f6
+        #shares_outstanding=''.join(_request(symbol, 'j2').split(',')),  # j2
+        #ask_size=''.join(_request(symbol, 'a5').split(',')),  # a5
+        #bid_size=''.join(_request(symbol, 'b6').split(',')),  # b6
+        #last_trade_size=''.join(_request(symbol, 'k3').split(',')),  # k3
+
+        # Removed
+        # more_info=values[37],  # v - v is for volume, not 'more_info'
 
 
 def get_dividend_yield(symbol):
