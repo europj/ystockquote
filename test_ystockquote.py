@@ -18,6 +18,7 @@ import pep8
 from testscenarios import generate_scenarios, TestWithScenarios
 
 import ystockquote
+import quote_properties
 
 
 class Pep8ConformanceTestCase(unittest.TestCase):
@@ -94,6 +95,39 @@ class YStockQuoteTestCase(TestWithScenarios):
             ystockquote.get_todays_high(symbol))
         self.assertEquals(
             all_info['last_trade_date'],
+            ystockquote.get_last_trade_date(symbol))
+
+    def test_get_all_alignment_new(self):
+        """ Compare bulk 'all_info' values to individual values.
+        Currently broken due to misalignment from invalid CSV in
+        fields: f6, k3, and maybe j2, a5, b6.
+        """
+        symbol = 'GOOG'
+        all_info = quote_properties.get_all(symbol)
+        self.assertIsInstance(all_info, dict)
+        self.assertEquals(
+            all_info['PreviousClose'],
+            ystockquote.get_previous_close(symbol))
+        self.assertEquals(
+            all_info['Volume'],
+            ystockquote.get_volume(symbol))
+        self.assertEquals(
+            all_info['BidRealtime'],
+            ystockquote.get_bid_realtime(symbol))
+        self.assertEquals(
+            all_info['AskRealtime'],
+            ystockquote.get_ask_realtime(symbol))
+        self.assertEquals(
+            all_info['LastTradePriceOnly'],
+            ystockquote.get_last_trade_price(symbol))
+        self.assertEquals(
+            all_info['Open'],
+            ystockquote.get_today_open(symbol))
+        self.assertEquals(
+            all_info['DaysHigh'],
+            ystockquote.get_todays_high(symbol))
+        self.assertEquals(
+            all_info['LastTradeDate'],
             ystockquote.get_last_trade_date(symbol))
 
 
