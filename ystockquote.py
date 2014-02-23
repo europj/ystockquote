@@ -25,10 +25,16 @@ except ImportError:
     from urllib import urlencode
 
 
-def _request(symbol, stat):
+def _request(symbol, stat, timeout=0.5, maxTries=10):
     url = 'http://finance.yahoo.com/d/quotes.csv?s=%s&f=%s' % (symbol, stat)
     req = Request(url)
-    resp = urlopen(req)
+    for i in xrange(maxTries):
+      try:
+        resp = urlopen(req, timeout=timeout)
+        break
+      except Exception as e:
+        if i == maxTries-1:
+          raise e
     content = resp.read().decode().strip()
     return content
 
