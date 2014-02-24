@@ -24,7 +24,7 @@ def main():
         args.symbol, args.startDate, args.endDate).items()
   else:
     values = get_all(args.symbol).items()
-  for val in sorted(values, key=lambda x:x[0]):
+  for val in sorted(values):
     print val
 
 
